@@ -56,7 +56,11 @@ void menu_cliente(void) {
 }
 
 void cadastra_cliente(void) {
-    Cliente cliente; // Declara um struct do tipo Cliente    
+    Cliente cliente; // Declara um struct do tipo Cliente   
+    
+    File* fp;  // Ponteiro para o arquivo
+    fp = fopen = ("cliente.txt", "wt");
+    
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
