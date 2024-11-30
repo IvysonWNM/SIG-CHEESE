@@ -8,12 +8,12 @@ static char **listaCPF = NULL;
 static int totalCPF = 0;
 
 // Função para adicionar um CPF à lista
-void adicionaCPF(const char *cpf) {                   // Créditos ao GPT (30/11/2024)
+int adicionaCPF(const char *cpf) {                   // Créditos ao GPT (30/11/2024)
     // Verifica se o CPF já existe na lista
     for (int i = 0; i < totalCPF; i++) {
         if (strcmp(listaCPF[i], cpf) == 0) {
             printf("CPF digitado já foi cadastrado\n");
-            return;
+            return 0;
         }
     }
 
@@ -35,6 +35,8 @@ void adicionaCPF(const char *cpf) {                   // Créditos ao GPT (30/11
 // Copia o CPF para a posição correspondente e incrementa o contador
     strcpy(listaCPF[totalCPF], cpf);
     totalCPF++;
+    
+    return 1;
 }
 
 // Função para liberar a memória alocada
