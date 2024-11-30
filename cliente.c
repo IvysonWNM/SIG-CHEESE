@@ -3,6 +3,7 @@
 #include "cliente.h"
 #include "entradas.h"
 #include "validacao.h"
+#include "cpf.h"
 
 void menu_cliente(void) {
     char op;
@@ -53,6 +54,8 @@ void menu_cliente(void) {
                 break;	
         }
     } while (op != '0');
+    // Libera memória no final do menu_cliente
+    liberaMemoria();
 }
 
 void cadastra_cliente(void) {
@@ -90,14 +93,13 @@ void cadastra_cliente(void) {
     do {
         leCpfCliente(&cliente);
         if (validaCPF(cliente.cpf)) {
-            printf("CPF válido\n");
+            // Adiciona o CPF validado à lista
+            adicionaCPF(cliente.cpf);
             break;
         } else {
-            printf("CPF inválido, tente novamente apertando a tecla ENTER");
-            getchar();
             printf("|-> CPF (somente números): ");
         }
-    } while (!validaCPF(cliente.cpf));
+    } while (1); // Continua até o CPF ser válido
 
     printf("|-> Email: ");
     do {
@@ -168,8 +170,6 @@ void cadastra_cliente(void) {
 
     fclose(fp); // Fecha o arquivo
     
-
-    // Liberação da memória alocada dinamicamente
     free (cliente.nome);
     free (cliente.email);
     free (cliente.data);
