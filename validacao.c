@@ -97,12 +97,14 @@ int validaCPF(const char* cpf) {
     
     // Verifica se o CPF tem 11 dígitos
     if (tam != 11) {
+        printf("CPF inválido! Deve ter 11 dígitos.\n");
         return 0;
     }
 
     // Verifica se todos os caracteres são dígitos
     for (int i = 0; i < tam; i++) {
         if (!validaDigito(cpf[i])) {
+            printf("CPF inválido! Todos os caracteres devem ser números.\n");
             return 0; // Retorna 0 se não for dígito
         }
     }
