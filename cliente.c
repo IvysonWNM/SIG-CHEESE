@@ -58,9 +58,13 @@ void menu_cliente(void) {
 void cadastra_cliente(void) {
     Cliente cliente; // Declara um struct do tipo Cliente   
     
-    File* fp;  // Ponteiro para o arquivo
-    fp = fopen = ("cliente.txt", "wt");
-    
+    FILE* fp;  // Ponteiro para o arquivo
+    fp = fopen ("clientes.txt", "a");
+    if(fp == NULL) {
+        printf("Erro ao criar o arquivo");
+        exit (1);
+    }
+        
     system("clear||cls");
     printf("\n");
     printf("+---------------------------------------------------------------------------+\n");
@@ -138,17 +142,18 @@ void cadastra_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 
-///implementar uma interface
-    printf("Cliente cadastrado com sucesso\n");
-    printf("\n");
-    printf("Nome: %s\n", cliente.nome);                     // Acessa o campo 'nome' da estrutura 'cliente'
-    printf("CPF: %s\n", cliente.cpf);                       // Acessa o campo 'cpf' da estrutura 'cliente'
-    printf("Email: %s\n", cliente.email);                   // Acessa o campo 'email' da estrutura 'cliente'
-    printf("Data de nascimento: %s\n", cliente.data);       // Acessa o campo 'data' da estrutura 'cliente'
-    printf("Número de telefone: %s\n", cliente.fone);       // Acessa o campo 'fone' da estrutura 'cliente'
-    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
-    getchar();
+    // Escreve as informações no arquivo clientes.txt
+    fprintf(fp, "+---------------------------------------------------------------------------+\n");
+    fprintf(fp, "| Nome: %s\n", cliente.nome);
+    fprintf(fp, "| CPF: %s\n", cliente.cpf);
+    fprintf(fp, "| Email: %s\n", cliente.email);
+    fprintf(fp, "| Data de nascimento: %s\n", cliente.data);
+    fprintf(fp, "| Número de telefone: %s\n", cliente.fone);                                                              
+    fprintf(fp, "+---------------------------------------------------------------------------+\n");
+
+    fclose(fp); // Fecha o arquivo
     
+
     // Liberação da memória alocada dinamicamente
     free (cliente.nome);
     free (cliente.email);
