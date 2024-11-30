@@ -135,7 +135,6 @@ int validaCPF(const char* cpf) {
 
     // Se o CPF for válido, adiciona à lista
     adicionaCPF(cpf);  // Adiciona o CPF à lista de CPFs
-    printf("CPF válido\n");
     return 1;  // Retorna 1 se o CPF é válido
 }
 
