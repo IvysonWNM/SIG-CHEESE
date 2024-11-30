@@ -126,10 +126,14 @@ int validaCPF(const char* cpf) {
     
     // Verifica se os dígitos verificadores estão corretos
     if (cpf[9] - '0' != d1 || cpf[10] - '0' != d2) {
+        printf("CPF inválido! Dígitos verificadores não correspondem.\n");
         return 0; // Retorna 0 se os dígitos não são válidos
     }
-    
-    return 1; // Retorna 1 se o CPF é válido
+
+    // Se o CPF for válido, adiciona à lista
+    adicionaCPF(cpf);  // Adiciona o CPF à lista de CPFs
+    printf("CPF válido\n");
+    return 1;  // Retorna 1 se o CPF é válido
 }
 
 //---------------------------------------------------------
