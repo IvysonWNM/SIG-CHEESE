@@ -12,7 +12,7 @@ int adicionaCPF(const char *cpf) {                   // Créditos ao GPT (30/11/
     // Verifica se o CPF já existe na lista
     for (int i = 0; i < totalCPF; i++) {
         if (strcmp(listaCPF[i], cpf) == 0) {
-            printf("CPF digitado já foi cadastrado\n");
+            printf("CPF válido, mas o CPF digitado já foi cadastrado\n");
             return 0;
         }
     }
