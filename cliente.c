@@ -142,6 +142,21 @@ void cadastra_cliente(void) {
     printf("+---------------------------------------------------------------------------+\n");
     printf("\n");
 
+    // Exibe as informações para o usuário
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("|                                                                           |\n");
+    printf("| Cliente cadastrado com sucesso\n");
+    printf("|\n");
+    printf("| Nome: %s\n", cliente.nome);
+    printf("| CPF: %s\n", cliente.cpf);
+    printf("| Email: %s\n", cliente.email);
+    printf("| Data de nascimento: %s\n", cliente.data);
+    printf("| Número de telefone: %s\n", cliente.fone);
+    printf("|                                                                           |\n");
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("\t\t\t>>> Tecle <ENTER> para continuar...\n");
+    getchar();
+    
     // Escreve as informações no arquivo clientes.txt
     fprintf(fp, "+---------------------------------------------------------------------------+\n");
     fprintf(fp, "| Nome: %s\n", cliente.nome);
