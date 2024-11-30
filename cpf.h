@@ -2,7 +2,7 @@
 #define CPF_H
 
 // Função para adicionar um CPF à lista
-void adicionaCPF(const char *cpf);
+int adicionaCPF(const char *cpf);
 
 // Função para liberar a memória alocada para os CPFs
 void liberaMemoria();
