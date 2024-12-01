@@ -4,6 +4,8 @@
 // Função para adicionar um CPF à lista
 int adicionaCPF(const char *cpf);
 
+int verificaCPFDuplicado(const char* cpf);
+
 // Função para liberar a memória alocada para os CPFs
 void liberaMemoria();
 
