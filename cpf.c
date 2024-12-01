@@ -39,6 +39,26 @@ int adicionaCPF(const char *cpf) {                   // Créditos ao GPT (30/11/
     return 1;
 }
 
+int verificaCPFDuplicado(const char* cpf) {
+    FILE* fp = fopen("clientes.txt", "r");
+    if (fp == NULL) return 0; // Arquivo não existe, CPF não duplicado
+
+    char linha[256];
+    while (fgets(linha, sizeof(linha), fp)) {
+        if (strncmp(linha, "| CPF:", 6) == 0) {
+            char cpfExistente[15];
+            sscanf(linha, "| CPF: %s", cpfExistente);
+            if (strcmp(cpfExistente, cpf) == 0) {
+                fclose(fp);
+                return 1; // CPF duplicado
+            }
+        }
+    }
+
+    fclose(fp);
+    return 0; // CPF não duplicado
+}
+
 // Função para liberar a memória alocada
 void liberaMemoria() {
     for (int i = 0; i < totalCPF; i++) {
