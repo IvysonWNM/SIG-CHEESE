@@ -64,8 +64,8 @@ void cadastra_cliente(void) {
     FILE* fp;  // Ponteiro para o arquivo
     fp = fopen ("clientes.txt", "a");
     if(fp == NULL) {
-        printf("Erro ao criar o arquivo");
-        exit (1);
+        perror("Erro ao abrir o arquivo clientes.txt");
+        exit(1);  // Mantém a saída do programa caso haja um erro ao abrir o arquivo
     }
         
     system("clear||cls");
@@ -94,11 +94,15 @@ void cadastra_cliente(void) {
         leCpfCliente(&cliente);
         if (validaCPF(cliente.cpf)) {
             // Adiciona o CPF validado à lista
-            adicionaCPF(cliente.cpf);
-            break;
+            if (adicionaCPF(cliente.cpf)) {
+                break; // Sai do loop se o CPF foi adicionado com sucesso
+            } else {
+                printf("|-> O CPF já está cadastrado. Tente novamente.\n");
+            }
         } else {
-            printf("|-> CPF (somente números): ");
+            printf("|-> CPF inválido. Digite novamente.\n");
         }
+        printf("|-> CPF (somente números): ");
     } while (1); // Continua até o CPF ser válido
 
     printf("|-> Email: ");
