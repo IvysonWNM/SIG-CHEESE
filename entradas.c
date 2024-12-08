@@ -1,59 +1,58 @@
 #include <stdio.h>
-#include <stdlib.h>  // Inclusão da biblioteca para manipulação de memória dinâmica.
-#include <string.h>  // Inclusão da biblioteca para manipulação de strings.
+#include <stdlib.h>
+#include <string.h>
 #include "entradas.h"
 
-// Função para ler entradas longas (ex.: nome, e-mail) e alocar memória dinamicamente
+// Função geral para leitura de entradas
+void leEntrada(char **entrada, size_t tamanho) {
+    char buffer[tamanho];
+    fgets(buffer, tamanho, stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';  // Remove o \n no final da string
+
+    if (*entrada != NULL) {
+        free(*entrada);  // Libera memória previamente alocada
+    }
+
+    *entrada = (char*) malloc(strlen(buffer) + 1);
+    if (*entrada == NULL) {
+        perror("Erro ao alocar memória");
+        exit(1);  // Sai caso a alocação falhe
+    }
+
+    strcpy(*entrada, buffer);  // Copia o buffer para o ponteiro
+}
+
+// Funções específicas para diferentes tamanhos
 void leEntradaMax(char **entrada) {
-    char buffer[256];
-    int tam;
-
-    // Lê a entrada do usuário
-    scanf("%255[^\n]", buffer);
-    getchar();
-
-    // Aloca memória para a entrada com base no tamanho lido
-    tam = strlen(buffer);
-    *entrada = (char*) malloc(tam + 1);
-
-    // Copia a string para a memória alocada
-    strcpy(*entrada, buffer);
+    leEntrada(entrada, 256);
 }
 
-// Função para ler entradas curtas (ex.: data, telefone) e alocar memória dinamicamente
 void leEntradaMin(char **entrada) {
-    char buffer[16];
-    int tam;
-
-    scanf("%15[^\n]", buffer);
-    getchar();
-
-    tam = strlen(buffer);
-    *entrada = (char*) malloc(tam + 1);
-    strcpy(*entrada, buffer);
+    leEntrada(entrada, 16);
 }
 
-// Funções para Cliente                                              (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
+
+// Funções específicas para Cliente, agora sem a necessidade de funções MAX/MIN               (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
 void leNomeCliente(Cliente *cliente) {
-  leEntradaMax(&cliente->nome);  // Passa o ponteiro para o nome
+    leEntrada(cliente->nome, 52);  // Passa o ponteiro para o nome
+    printf("Nome lido: '%s'\n", cliente->nome);
 }
 
 void leCpfCliente(Cliente *cliente) {
-    scanf("%11s", cliente->cpf);  // Acessa diretamente cliente->cpf
-    getchar();
+    leEntrada(&(cliente->cpf), TAM_CPF);
 }
 
 void leEmailCliente(Cliente *cliente) {
-    leEntradaMax(&cliente->email);  // Passa o ponteiro para o email
+    leEntrada(cliente->email, 258);  // Passa o ponteiro para o email
 }
 
 void leDataCliente(Cliente *cliente) {
-    leEntradaMin(&cliente->data);  // Passa o ponteiro para a data
+    leEntrada(cliente->data, 15);  // Passa o ponteiro para a data
 }
 
 
 void leFoneCliente(Cliente *cliente) {
-    leEntradaMin(&cliente->fone);  // Passa o ponteiro para o telefone
+    leEntrada(cliente->fone, 15);  // Passa o ponteiro para o telefone
 }
 
 // Funções para Funcionario
