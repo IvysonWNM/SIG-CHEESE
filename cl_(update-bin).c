@@ -202,11 +202,20 @@ void cadastra_cliente(void) {
     //fprintf(fp, "+---------------------------------------------------------------------------+\n");
 
     // Liberação da memória alocada dinamicamente
-    free (cliente->nome);
-    free (cliente->email);
-    free (cliente->data);
-    free (cliente->fone);      
-    free (cliente);                        //libera memória da estrutura Cliente
+    free(cliente->nome);   // Libera o nome
+    cliente->nome = NULL;   // Define como NULL para evitar double free
+    
+    free(cliente->email);  // Libera o email
+    cliente->email = NULL;  // Define como NULL
+    
+    free(cliente->data);   // Libera a data
+    cliente->data = NULL;   // Define como NULL
+    
+    free(cliente->fone);   // Libera o telefone
+    cliente->fone = NULL;   // Define como NULL
+    
+    free(cliente);         // Libera a memória da estrutura Cliente
+    cliente = NULL;        // Define como NULL para evitar double free da estrutura
 }
 
 void grava_cliente(FILE *fp, Cliente *cliente) {
