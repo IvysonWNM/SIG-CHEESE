@@ -188,8 +188,8 @@ void cadastra_cliente(void) {
         perror("Erro ao abrir o arquivo clientes.dat");
         exit(1);  // Mantém a saída do programa caso haja um erro ao abrir o arquivo
     }
-    fwrite(cliente, sizeof(Cliente), 1, fp);
-
+    
+    grava_cliente(fp, cliente);
     fclose (fp);  //Fecha o arquivo
     
     // Informações em arquivo texto chamada a partir de clientes.txt
@@ -209,11 +209,55 @@ void cadastra_cliente(void) {
     free (cliente);                        //libera memória da estrutura Cliente
 }
 
+void grava_cliente(FILE *fp, Cliente *cliente) {
+    // Verifica se o arquivo está aberto corretamente
+    if (fp == NULL) {
+        perror("Erro ao abrir o arquivo para salvar o cliente");
+        return;
+    }
+
+    // Grava a estrutura básica (exceto os campos dinâmicos)
+    fwrite(&cliente->status, sizeof(int), 1, fp);
+    fwrite(cliente->cpf, sizeof(char), 12, fp);
+
+    // Grava os campos dinâmicos
+
+    // Escreve o nome
+    int nome_len = strlen(cliente->nome) + 1;
+    fwrite(&nome_len, sizeof(int), 1, fp);
+    fwrite(cliente->nome, sizeof(char), nome_len, fp);
+
+    // Escreve o email
+    int email_len = strlen(cliente->email) + 1;
+    fwrite(&email_len, sizeof(int), 1, fp);
+    fwrite(cliente->email, sizeof(char), email_len, fp);
+
+    // Escreve a data de nascimento
+    int data_len = strlen(cliente->data) + 1;
+    fwrite(&data_len, sizeof(int), 1, fp);
+    fwrite(cliente->data, sizeof(char), data_len, fp);
+
+    // Escreve o telefone
+    int fone_len = strlen(cliente->fone) + 1;
+    fwrite(&fone_len, sizeof(int), 1, fp);
+    fwrite(cliente->fone, sizeof(char), fone_len, fp);
+
+    // Fecha o arquivo
+    fclose(fp);
+}
+
+
 void pesquisa_cliente() {
     char cpf_busca[12];
+    system("clear||cls");
+    printf("\n");
+    printf("+---------------------------------------------------------------------------+\n");
+    printf("|                                                                           |\n");
+    printf("|                         >>  Pesquisar Cliente  <<                         |\n");
+    printf("|                                                                           |\n");
     do {
       printf("Informe o CPF para pesquisa: ");
-      scanf("%s", cpf_busca);
+      scanf("%11s", cpf_busca);  // Limita a leitura a 11 caracteres
       
       if (validaCPF(cpf_busca)) {
           printf("CPF válido\n");
@@ -223,30 +267,53 @@ void pesquisa_cliente() {
           getchar();
       }
     } while (!validaCPF(cpf_busca)); // Continua até o CPF ser válido
+    printf("Procurando pelo CPF: %s\n", cpf_busca);  // Verifique se o CPF está correto
 
     busca_cliente(cpf_busca);
     getchar();
     printf("\n");
     printf("Pressione a tecla <ENTER> para continuar...\n");
     getchar();
+
 }
 
 void busca_cliente (const char *cpf_busca) {
-    Cliente cliente;
-  
+    
     FILE *fp = fopen("clientes.dat", "rb");
     if (fp == NULL) {
         perror("Erro ao abrir o arquivo!\n");
         exit(1);
-    } else {
-        printf("Arquivo aberto com sucesso.\n");  // Verifique se o arquivo foi aberto
     }
-
+        
+    Cliente cliente;
+        
+    int tamanho;
     int encontrado = 0;
-        // Ler os dados do arquivo cliente por cliente
-    while (fread(&cliente, sizeof(Cliente), 1, fp)) {
-  
+        
+    // Lê cada cliente do arquivo
+    while (fread(&cliente.status, sizeof(int), 1, fp) == 1) {   // Lê o status
+        fread(cliente.cpf, sizeof(char), 12, fp);    // Lê o CPF (11 dígitos + '\0')
 
+        // Lê o nome
+        fread(&tamanho, sizeof(int), 1, fp);
+        cliente.nome = (char *) malloc(tamanho);
+        fread(cliente.nome, sizeof(char), tamanho,fp);
+
+        // Lê o email
+        fread(&tamanho, sizeof(int), 1, fp);
+        cliente.email = (char *) malloc(tamanho);
+        fread(cliente.email, sizeof(char), tamanho,fp);
+
+        // Lê o data
+        fread(&tamanho, sizeof(int), 1, fp);
+        cliente.data = (char *)malloc(tamanho);
+        fread(cliente.data, sizeof(char), tamanho, fp);
+
+        // Lê o telefone
+        fread(&tamanho, sizeof(int), 1, fp);
+        cliente.fone = (char *)malloc(tamanho);
+        fread(cliente.fone, sizeof(char), tamanho, fp);
+  
         // Verifica se o CPF corresponde ao que foi procurado
         if (strcmp(cliente.cpf, cpf_busca) == 0) {
             printf("+---------------------------------------------------------------------------+\n");
@@ -258,12 +325,16 @@ void busca_cliente (const char *cpf_busca) {
             printf("| Telefone: %s\n", cliente.fone);
             printf("+---------------------------------------------------------------------------+\n");
             encontrado = 1;
-            break; // Encerra o loop quando encontrar o cliente
+        }
+        if (encontrado) {
+            break;  // Encerra o loop se o cliente foi encontrado
         }
     }
+        
     if (!encontrado) {
         printf("Cliente não encontrado\n");
     }
+
     fclose(fp);  // Fecha o arquivo após o uso
 }
 
