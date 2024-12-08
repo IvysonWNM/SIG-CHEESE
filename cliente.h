@@ -10,6 +10,7 @@ void exclui_cliente(void);
 
 // Estrutura para armazenar os dados do cliente
 typedef struct {
+    char status;      // Status do cliente (ativo, inativo, etc.)
     char *nome;       // Nome dinâmico
     char cpf[12];     // CPF com tamanho fixo
     char *email;      // E-mail dinâmico
