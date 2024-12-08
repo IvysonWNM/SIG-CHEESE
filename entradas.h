@@ -8,6 +8,8 @@
 #include "funcionario.h"  // Inclui a definição do tipo Funcionario
 #include "queijo.h"       // Inclui a definição do tipo Queijo
 
+void leEntradaMax(char **entrada);
+void leEntradaMin(char **entrada);
 // Funções que recebem um ponteiro para a struct Cliente
 void leNomeCliente(Cliente *cliente);
 void leCpfCliente(Cliente *cliente);
