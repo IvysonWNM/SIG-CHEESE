@@ -22,15 +22,6 @@ void leEntrada(char **entrada, size_t tamanho) {
     strcpy(*entrada, buffer);  // Copia o buffer para o ponteiro
 }
 
-// Funções específicas para diferentes tamanhos
-void leEntradaMax(char **entrada) {
-    leEntrada(entrada, 256);
-}
-
-void leEntradaMin(char **entrada) {
-    leEntrada(entrada, 16);
-}
-
 
 // Funções específicas para Cliente, agora sem a necessidade de funções MAX/MIN               (Ainda é necessário evitar esta redundância com cliente, funcionário e queijo)
 void leNomeCliente(Cliente *cliente) {
@@ -56,6 +47,17 @@ void leFoneCliente(Cliente *cliente) {
 }
 
 // Funções para Funcionario
+
+// Funções específicas para diferentes tamanhos
+void leEntradaMax(char **entrada) {
+    leEntrada(entrada, 256);
+}
+
+void leEntradaMin(char **entrada) {
+    leEntrada(entrada, 16);
+}
+
+
 void leNomeFuncionario(Funcionario *funcionario) {
   leEntradaMax(&funcionario->nome);  // Passa o ponteiro para o nome
 }
